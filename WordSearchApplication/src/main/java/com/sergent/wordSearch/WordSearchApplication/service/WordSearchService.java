@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 @Service
 @Slf4j
@@ -45,13 +46,16 @@ public class WordSearchService {
         //C:\\Users\\m_406943\\Documents\\Personal Repo\\test-folder
         log.info("directory path:: {}",directoryPath);
         File mainDirectory = new File(directoryPath);
-        File fileArray[]=null;
+        List<File> fileArray=null;
         if(mainDirectory.exists() && mainDirectory.isDirectory()) {
             log.info("inside main directory check");
-            fileArray= mainDirectory.listFiles();
+            //fileArray= mainDirectory.listFiles();
+            fileArray=(List<File>)FileUtils.listFiles(mainDirectory,
+            		new String[] {".txt","doc","xlsx","txt"}, true);
         }
-        if(fileArray!=null){
-            log.info("fileArray not null {}", Arrays.stream(fileArray).count());
+        if(!fileArray.isEmpty()){
+            //log.info("fileArray not null {}", Arrays.stream(fileArray).count());
+        	log.info("fileArray size::"+fileArray.size());
             for(File file:fileArray){
                 try {
                     log.info("file name:: {}",file.getPath());
